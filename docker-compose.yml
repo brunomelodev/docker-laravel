@@ -16,7 +16,7 @@ services:
       - redis
       - queue
     networks:
-      - docker-laravel
+      - laravel-network
 
   #nginx
   nginx:
@@ -28,11 +28,11 @@ services:
       - ./:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/
     networks:
-      - docker-laravel
+      - laravel-network
 
   # db
   mysql:
-    image: mysql:5.7.22
+    image: mysql:8.0
     restart: always
     ports:
       - 3307:3306
@@ -44,13 +44,13 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     networks:
-      - docker-laravel
+      - laravel-network
 
   # redis
   redis:
     image: redis:latest
     networks:
-      - docker-laravel
+      - laravel-network
 
   # queue
   queue:
@@ -67,8 +67,8 @@ services:
     depends_on:
       - redis
     networks:
-      - docker-laravel
+      - laravel-network
 
 networks:
-  docker-laravel:
+  laravel-network:
     driver: bridge
